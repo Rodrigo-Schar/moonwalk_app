@@ -1,4 +1,4 @@
-package com.moonwalkapp;
+package com.moonwalkapp.latam;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

@@ -1,4 +1,4 @@
-package com.moonwalkapp.newarchitecture;
+package com.moonwalkapp.latam.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.moonwalkapp.BuildConfig;
-import com.moonwalkapp.newarchitecture.components.MainComponentsRegistry;
-import com.moonwalkapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.moonwalkapp.latam.BuildConfig;
+import com.moonwalkapp.latam.newarchitecture.components.MainComponentsRegistry;
+import com.moonwalkapp.latam.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

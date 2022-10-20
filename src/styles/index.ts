@@ -14,6 +14,8 @@ export type ThemeType = {
     smallMargin: number;
     largeMargin: number;
     placeholderColor: string;
+    loadingColor: string;
+    loadingBackground: string;
   }
 
   const theme = {
@@ -35,7 +37,9 @@ export type ThemeType = {
     backgroundColor: "#f1f2f7",
     primaryColorText: "#7d7f86",
     secondaryColorText: "#004696",
-    placeholderColor: "#fff"
+    placeholderColor: "#fff",
+    loadingColor: '#fff',
+    loadingBackground: "#161B20"
   };
 
   export const darkTheme: ThemeType = {
@@ -46,5 +50,7 @@ export type ThemeType = {
     backgroundColor: "#f1f2f7",
     primaryColorText: "#7d7f86",
     secondaryColorText: "#666",
-    placeholderColor: "#fff"
+    placeholderColor: "#fff",
+    loadingColor: '#161B20',
+    loadingBackground: "#161B20"
   };

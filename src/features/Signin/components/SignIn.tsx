@@ -1,22 +1,60 @@
 import { useContext, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-import { Button, LabelButton, Input } from '@/components';
+import { Button, LabelButton, Input, LabelError } from '@/components';
 import { RootStackParamList } from '@/navigation';
-import { AppContext, StorageConstants } from '@/shared';
+import { AppContext } from '@/shared';
+import auth from '@react-native-firebase/auth';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
-const SignIn = ({ }: SignInProps) => {
+const SignIn = ({ navigation }: SignInProps) => {
   const { setIsSignedIn } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [errorLabel, setErrorLabel] = useState(false);
   const logo = require('@/assets/logologin.png');
+
+  const goToSignUp = () => {
+    navigation.replace('SignUp');
+  };
+
+  const validateFields = () => {
+    if(email == "") {
+      setError('Please fill the field with your email');
+      return false
+    }
+    if(password == "") {
+      setError('Please fill the field with your password');
+      return false
+    }
+    return true
+  }
 
   const signInWithUser = async () => {
     try {
-      
+      setErrorLabel(false)
+      setError("")
+      const validate = validateFields()
+      if(validate) {
+        const authResult = await auth().signInWithEmailAndPassword(email, password).catch(
+          error => {
+            if (error.code === 'auth/user-not-found') {
+              setErrorLabel(true)
+              setError('There is no user corresponding to the given email.');
+            }
+        
+            if (error.code === 'auth/wrong-password') {
+              setErrorLabel(true)
+              setError('The password is invalid!');
+            }
+          }
+        )
+        if(authResult != null) {
+          setIsSignedIn(true);
+        }
+      }
     } finally {
       
     }
@@ -29,8 +67,9 @@ const SignIn = ({ }: SignInProps) => {
       </View>
       <View style={styles.content}>
         <Input placeholderText='Email' value={email} onChangeText={setEmail} />
-        <Input placeholderText='Password' value={password} onChangeText={setPassword} />
-        <LabelButton text="Don't have an account yet? Sign Up" onPress={signInWithUser} />
+        <Input secureTextEntry={true} placeholderText='Password' value={password} onChangeText={setPassword} />
+        <LabelError isActive={errorLabel} text={error} />
+        <LabelButton text="Don't have an account yet? Sign Up" onPress={goToSignUp} />
         <Button style={styles.button} text="Sign In" onPress={signInWithUser} />
       </View>
     </View>

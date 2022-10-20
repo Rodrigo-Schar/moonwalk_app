@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const SignUp = () => {
+const Splash = () => {
   return (
     <View>
       <Text>Splash</Text>
@@ -9,6 +9,6 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default Splash
 
 const styles = StyleSheet.create({})

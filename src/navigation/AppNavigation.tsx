@@ -3,14 +3,14 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { AppContext } from '@/shared'
-import { SignIn } from '@/features';
+import { SignIn, Home } from '@/features';
 import { RootStackParamList } from './RootStack'
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const SignedScreens = () => (
     <>
-      
+      <Stack.Screen name="Home" component={Home.HomeScreen} />
     </>
 )
 

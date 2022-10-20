@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "130405765594",
+    "project_id": "moonwalk-21d7b",
+    "storage_bucket": "moonwalk-21d7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130405765594:android:892133fedfaa8ef47070e3",
+        "android_client_info": {
+          "package_name": "com.moonwalkapp.latam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130405765594-i0a8t835ur69i52ml38b75vcc7b396ob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeJrGAXnVV4DGDsfsx_JOrwWhOyjaXvwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130405765594-i0a8t835ur69i52ml38b75vcc7b396ob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

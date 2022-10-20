@@ -1,19 +1,21 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Button, LabelButton, Input, LabelError } from '@/components';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/navigation';
+import { AppContext } from '@/shared';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 type SignUpProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 const SignUp = ( { navigation }: SignUpProps) => {
-
+  const { setIsBusy } = useContext(AppContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [errorLabel, setErrorLabel] = useState(false);
 
@@ -34,6 +36,10 @@ const SignUp = ( { navigation }: SignUpProps) => {
       setError('Please fill the field with your password');
       return false
     }
+    if(password != confirmPassword) {
+      setError('Passwords do not match');
+      return false
+    }
     return true
   }
 
@@ -41,6 +47,7 @@ const SignUp = ( { navigation }: SignUpProps) => {
     try {
       setErrorLabel(false)
       setError("")
+      setIsBusy(true);
       const validate = validateFields()
       if(validate) {
         const authResult = await auth().createUserWithEmailAndPassword(email, password).catch(
@@ -64,7 +71,7 @@ const SignUp = ( { navigation }: SignUpProps) => {
         }
       }
     } finally {
-      
+      setIsBusy(false);
     }
   }
 
@@ -74,6 +81,7 @@ const SignUp = ( { navigation }: SignUpProps) => {
         <Input placeholderText='Name' value={name} onChangeText={setName} />
         <Input placeholderText='Email' value={email} onChangeText={setEmail} />
         <Input secureTextEntry={true} placeholderText='Password' value={password} onChangeText={setPassword} />
+        <Input secureTextEntry={true} placeholderText='Confirm Password' value={confirmPassword} onChangeText={setConfirmPassword} />
         <LabelError isActive={errorLabel} text={error} />
         <LabelButton text="Already have an account? Sign In" onPress={goToSignIn} />
         <Button style={styles.button} text="Sign Up" onPress={signUnWithCredentials} />

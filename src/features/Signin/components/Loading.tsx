@@ -1,14 +1,19 @@
 import { useEffect, useContext } from 'react';
 import { StyleSheet, View } from 'react-native'
-
-import { AppContext, StorageConstants } from '@/shared';
+import { AppContext } from '@/shared';
+import { Spinner } from '@/components';
+import auth from '@react-native-firebase/auth';
 
 const Loading = () => {
   const appContext = useContext(AppContext);
 
   const checkCredentials = async () => {
     try {
-      
+      auth().onAuthStateChanged(user => {
+        if(user) {
+          appContext.setIsSignedIn(true);
+        }
+      })
     } catch (ex) {
       // TODO: handle error
     } finally {
@@ -22,7 +27,7 @@ const Loading = () => {
 
   return (
     <View style={styles.main}>
-      
+      <Spinner size="large" />
     </View>
   )
 }

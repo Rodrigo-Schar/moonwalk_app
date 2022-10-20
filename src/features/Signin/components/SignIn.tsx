@@ -10,6 +10,7 @@ type SignInProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const SignIn = ({ navigation }: SignInProps) => {
   const { setIsSignedIn } = useContext(AppContext);
+  const { setIsBusy } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,6 +35,7 @@ const SignIn = ({ navigation }: SignInProps) => {
 
   const signInWithUser = async () => {
     try {
+      setIsBusy(true);
       setErrorLabel(false)
       setError("")
       const validate = validateFields()
@@ -56,7 +58,7 @@ const SignIn = ({ navigation }: SignInProps) => {
         }
       }
     } finally {
-      
+      setIsBusy(false);
     }
   }
 

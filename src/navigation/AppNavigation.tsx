@@ -1,18 +1,26 @@
 import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { AppContext } from '@/shared'
-import { SignIn, Home } from '@/features';
+import { SignIn } from '@/features';
 import { RootStackParamList } from './RootStack'
+import { BottomNavigation } from '@/navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator();
 
-const SignedScreens = () => (
+const SignedScreens = () => {
+  const options = {
+    headerShown: false,
+  };
+  return (
     <>
-      <Stack.Screen name="Home" component={Home.HomeScreen} />
+      <Stack.Screen name="Menu" component={BottomNavigation} options={options}  />
     </>
-)
+  )
+}
 
 const NotSignedScreens = () => {
     const options = {

@@ -1,0 +1,1 @@
+export { default as NewsScreen } from './components/NewsScreen';

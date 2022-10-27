@@ -19,8 +19,8 @@ const SearchScreen = ({ navigation }) => {
   const searchByTitle = () => {
     searchLaunchByTitle(title)
       .then(items => {
-        setLaunchs(items)
-        setResults(`${items.length} Results`)
+        setLaunchs(items.results)
+        setResults(`${items.results.length} Results`)
       })
 
     searchArticleByTitle(title)
@@ -30,7 +30,13 @@ const SearchScreen = ({ navigation }) => {
     })
   };
 
-  const gotoDetail = async (article: Article) => {
+  const gotoLaunchDetail = async (launch: Launch) => {
+    navigation.navigate('SearchDetailLaunch',
+      launch
+    );
+  };
+
+  const gotoArticleDetail = async (article: Article) => {
     navigation.navigate('SearchDetailArticle',
       article
     );
@@ -44,7 +50,13 @@ const SearchScreen = ({ navigation }) => {
       {isSearching && (
         <FlatList
         data={launches}
-        renderItem={(launch) => <CardLaunch {...launch.item} /> }
+        renderItem={(launch) => (
+          <TouchableHighlight
+            key={launch.index}
+            onPress={() => gotoLaunchDetail(launch.item)}>
+              <CardLaunch {...launch.item} />
+            </TouchableHighlight>
+        ) }
         keyExtractor={(item) => item.id} />
       )}
       <SecondaryHeader type={2} title="Related Articles" />
@@ -54,7 +66,7 @@ const SearchScreen = ({ navigation }) => {
         renderItem={(article) => (
           <TouchableHighlight
           key={article.index}
-          onPress={() => gotoDetail(article.item)}>
+          onPress={() => gotoArticleDetail(article.item)}>
             <CardArticle {...article.item} />
           </TouchableHighlight>
         ) }

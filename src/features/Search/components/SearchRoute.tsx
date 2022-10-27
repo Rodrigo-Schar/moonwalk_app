@@ -13,6 +13,7 @@ const SearchRoute = () => {
     <Stack.Navigator>
       <Stack.Screen name="SearchScreen" component={Search.SearchScreen} options={options} />
       <Stack.Screen name="SearchDetailArticle" component={Search.SearchDetailArticle} options={options} />
+      <Stack.Screen name="SearchDetailLaunch" component={Search.SearchDetailLaunch} options={options} />
 		</Stack.Navigator>
   )
 }

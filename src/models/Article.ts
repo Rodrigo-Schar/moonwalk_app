@@ -8,8 +8,8 @@ export type Article = {
     summary: string;
     publishedAt: string;
     updatedAt: string;
-    launches: [Provider];
-    events: [Provider];
+    launches: Provider[];
+    events: Provider[];
 }
 
 export type Provider = {

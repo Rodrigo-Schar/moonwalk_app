@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native'
-import { SignIn, Home, News, Search } from '@/features';
+import { Home, News, Search, Events } from '@/features';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,8 +10,9 @@ function BottomNavigation() {
   return (
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home.HomeScreen} options={options} />
-        <Tab.Screen name="News" component={News.NewsScreen} options={options} />
-        <Tab.Screen name="Search" component={Search.SearchScreen} options={options} />
+        <Tab.Screen name="Events" component={Events.CalendarScreen} options={options} />
+        <Tab.Screen name="News" component={News.NewsRoute} options={options} />
+        <Tab.Screen name="Search" component={Search.SearchRoute} options={options} />
       </Tab.Navigator>
   );
 }

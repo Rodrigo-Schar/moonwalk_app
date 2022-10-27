@@ -1,6 +1,5 @@
 import { StyleSheet, TextInput, TextInputProps, View, Keyboard, Button, TouchableHighlightProps } from 'react-native';
 import React, { useContext, useState } from 'react';
-//import { Feather, Entypo } from "react-native-vector-icons/FontAwesome";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {ColorContext} from '@/shared';

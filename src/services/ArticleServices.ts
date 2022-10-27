@@ -14,3 +14,8 @@ export function searchArticleByTitle(title: string) {
     return fetch(`${Constants.NEWS_API_URL}articles?title_contains=${title}`)
         .then(data => data.json())
 }
+
+export function getNextLaunches() {
+    return fetch(`${Constants.API_URL}launch/upcoming?limit=${10}&mode=detailed`)
+        .then(data => data.json())
+}

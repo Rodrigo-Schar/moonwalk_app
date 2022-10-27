@@ -23,7 +23,7 @@ const NewsScreen = ({ navigation }) => {
   }, [])
 
   return (
-    <View>
+    <View style={{ flex: 1}}>
       <Header title='News' />
       <SecondaryHeader type={1} title='Today' />
       <FlatList

@@ -1,2 +1,2 @@
-export { getArticleList, searchLaunchByTitle, searchArticleByTitle } from './ArticleServices';
+export { getArticleList, searchLaunchByTitle, searchArticleByTitle, getNextLaunches } from './ArticleServices';
 export { getEvents } from './EventServices'

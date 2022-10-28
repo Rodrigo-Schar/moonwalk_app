@@ -56,18 +56,18 @@ const SearchDetailLaunch = () => {
               </View>
             </View>
             <View style={themeStyles.launchTime}>
-              <AntDesign name='rocket1' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <AntDesign name='rocket1' style={themeStyles.launchIcon}/>
               <Text style={themeStyles.launchText}>{launch?.launch_service_provider.name}</Text>
             </View>
             <View style={themeStyles.launchTime}>
-              <AntDesign name='clockcircleo' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <AntDesign name='clockcircleo' style={themeStyles.launchIcon}/>
               {dateLaunch != "" && (
                 <Text style={themeStyles.launchText}>{new Date(dateLaunch).toLocaleString()}</Text>
               )}
               
             </View>
             <View style={themeStyles.launchTime}>
-              <EvilIcons name='location' style={{ color: 'black', fontSize: 30, padding: 1}}/>
+              <EvilIcons name='location' style={themeStyles.launchIcon}/>
               <Text style={themeStyles.launchText}>{launch?.pad.location.name}</Text>
             </View>
         </View>
@@ -79,7 +79,7 @@ const SearchDetailLaunch = () => {
 export default SearchDetailLaunch
 
 const useStyles = () => {
-  const { backgroundColor, primaryColorText, secondaryColor } =
+  const { backgroundColor, primaryColorText, secondaryColor, accent } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -96,14 +96,19 @@ const useStyles = () => {
       flexWrap: "wrap",
       marginVertical: 10,
       width: "80%",
-      backgroundColor: "#d9dbda",
+      backgroundColor: backgroundColor,
       borderRadius: 15,
-      alignSelf: "center",
-      alignItems: 'center',
-      justifyContent: "space-evenly",
+      alignSelf: 'flex-start',
+      marginHorizontal: 10
     },
     launchText: {
-      color: "#000000",
+      color: primaryColorText,
+      marginHorizontal: 10
+    },
+    launchIcon: {
+      color: accent, 
+      fontSize: 25,
+      padding: 1
     },
     image: {
       height: 400,

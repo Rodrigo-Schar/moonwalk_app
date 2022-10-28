@@ -10,19 +10,24 @@ import {ColorContext} from '@/shared';
 const CalendarScreen = () => {
   const { setIsBusy } = useContext(AppContext);
   const themeStyles = useStyles();
-  const [launches, setLaunches] = useState<Launch[] | null>(null)
+  const [launches, setLaunches] = useState<Launch[]>([])
+  const [done, setDone] = useState<boolean>(false)
   var launchesList: Launch[] = []
 
   useEffect(() => {
     setIsBusy(true);
     getEvents()
       .then(items => {
-        for(let results of items.results) {
+        if(items.results != undefined) {
+          for(let results of items.results) {
             for(let launches of results.launches) {
               launchesList.push(launches)
             }
-        }
-        setLaunches(launchesList)
+          }
+          setLaunches(launchesList)
+          setIsBusy(false);
+          setDone(true);
+        } 
         setIsBusy(false);
       })
   }, [])
@@ -31,10 +36,17 @@ const CalendarScreen = () => {
     <View style={themeStyles.container}>
       <Header title='Calendar' />
       <SecondaryHeader type={1} title='Scheduled' />
-      <FlatList
-      data={launches}
-      renderItem={(launch) => <CardCalendar {...launch.item} />}
-      keyExtractor={(item) => item.id} />
+      {done &&
+        <FlatList
+        data={launches}
+        renderItem={(launch) => <CardCalendar {...launch.item} />}
+        keyExtractor={(item) => item.id} />
+      }
+      {!done &&
+        <View style={themeStyles.noData}>
+            <Text style={themeStyles.noDataText}>Sorry! By now there are not Launch Events Available</Text>
+          </View>
+      }
     </View>
   )
 }
@@ -42,7 +54,7 @@ const CalendarScreen = () => {
 export default CalendarScreen
 
 const useStyles = () => {
-  const { backgroundColor } =
+  const { backgroundColor, primaryColorText } =
     useContext(ColorContext);
 
     return StyleSheet.create({
@@ -50,8 +62,17 @@ const useStyles = () => {
         flex: 1,
         backgroundColor: backgroundColor,
       },
-      button: {
-          width: '80%',
+      noData: {
+        backgroundColor: backgroundColor,
+        flex: 1,
+        alignContent: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 20,
+      },
+      noDataText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: primaryColorText,
       },
   })
 }

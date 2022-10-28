@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
+import { ScrollView, StyleSheet, View, TouchableOpacity, Alert, Text } from 'react-native'
 import { CountDown, PreviewLaunch } from '@/components';
 import { getNextLaunches } from '@/services';
 import { Launch } from '@/models/Launch';
-import {ColorContext} from '@/shared';
+import { ColorContext } from '@/shared';
 import { useAppDispatch } from '@/hooks';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { logout } from '@/features/Signin';
-import { AppDispatch } from '@/store';
 
 const HomeScreen = () => {
   const themeStyles = useStyles();
@@ -46,7 +45,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={themeStyles.contentContainer}>
-        {done && (
+        {done && launches != undefined && (
           <ScrollView
           scrollEnabled={true}
           style={{ width: '100%' }}
@@ -54,6 +53,11 @@ const HomeScreen = () => {
             <PreviewLaunch launch={launches[0]} />
             <CountDown dateStr={launches[0].net} />
           </ScrollView>
+        )}
+        {done && launches == undefined && (
+          <View style={themeStyles.noData}>
+            <Text style={themeStyles.noDataText}>Sorry! By now there are not Launches Available</Text>
+          </View>
         )}
       </View>
     </View> 
@@ -86,6 +90,18 @@ const useStyles = () => {
     menuIcon: {
       color: primaryColorText,
       fontSize: 20
+    },
+    noData: {
+      backgroundColor: backgroundColor,
+      flex: 1,
+      alignContent: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 20,
+    },
+    noDataText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: primaryColorText,
     },
   })
 }

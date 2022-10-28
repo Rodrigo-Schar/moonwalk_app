@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableHighlight, Text } from 'react-native';
 import { AppContext } from '@/shared';
 import { Header, SecondaryHeader, CardArticle } from '@/components';
 import { Article } from '@/models/Article';
@@ -9,7 +9,8 @@ import {ColorContext} from '@/shared';
 const NewsScreen = ({ navigation }) => {
   const { setIsBusy } = useContext(AppContext);
   const themeStyles = useStyles();
-  const [articles, setArticles] = useState<Article[] | null>(null)
+  const [articles, setArticles] = useState<Article[]>([])
+  const [done, setDone] = useState<boolean>(false)
 
   const gotoDetail = async (article: Article) => {
     navigation.navigate('NewsDetailArticle',
@@ -23,6 +24,7 @@ const NewsScreen = ({ navigation }) => {
       .then(items => {
         setArticles(items)
         setIsBusy(false);
+        setDone(true);
       })
   }, [])
 
@@ -30,7 +32,8 @@ const NewsScreen = ({ navigation }) => {
     <View style={themeStyles.container}>
       <Header title='News' />
       <SecondaryHeader type={1} title='Today' />
-      <FlatList
+      {done && articles != undefined &&
+        <FlatList
         data={articles}
         renderItem={(article) => (
           <TouchableHighlight
@@ -40,6 +43,12 @@ const NewsScreen = ({ navigation }) => {
           </TouchableHighlight>
         )}
         keyExtractor={(item) => item.title} /> 
+      }
+      {!done &&
+        <View style={themeStyles.noData}>
+            <Text style={themeStyles.noDataText}>Sorry! By now there are not News Available</Text>
+          </View>
+      }
     </View>
   )
 }
@@ -47,7 +56,7 @@ const NewsScreen = ({ navigation }) => {
 export default NewsScreen
 
 const useStyles = () => {
-  const { backgroundColor } =
+  const { backgroundColor, primaryColorText } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -55,8 +64,17 @@ const useStyles = () => {
       flex: 1,
       backgroundColor: backgroundColor,
     },
-    button: {
-      width: '80%',
+    noData: {
+      backgroundColor: backgroundColor,
+      flex: 1,
+      alignContent: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 20,
+    },
+    noDataText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: primaryColorText,
     },
   })
 }

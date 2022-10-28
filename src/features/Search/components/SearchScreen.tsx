@@ -11,25 +11,32 @@ import {ColorContext} from '@/shared';
 const SearchScreen = ({ navigation }) => {
   const { setIsBusy } = useContext(AppContext);
   const themeStyles = useStyles();
-  const [articles, setArticles] = useState<Article[] | null>(null)
-  const [launches, setLaunchs] = useState<Launch[] | null>(null)
+  const [articles, setArticles] = useState<Article[]>([])
+  const [launches, setLaunchs] = useState<Launch[]>([])
+  const [done, setDone] = useState<boolean>(false)
   const [results, setResults] = useState('Write a title for search');
   const [title, setTitle] = useState("");
   const [search, setSearch] = useState(false);
   const [isSearching, setSearching] = useState(false);
 
   const searchByTitle = () => {
+    setIsBusy(true);
     Keyboard.dismiss();
     searchLaunchByTitle(title)
       .then(items => {
         setLaunchs(items.results)
-        setResults(`${items.results.length} Results`)
+        if(items.results != undefined) {
+          setResults(`${items.results.length} Results`)
+        }
+        setResults('0 launches found')
       })
 
     searchArticleByTitle(title)
         .then(items => {
         setArticles(items)
         setSearching(true)
+        setDone(true);
+        setIsBusy(false);
     })
   };
 
@@ -50,7 +57,7 @@ const SearchScreen = ({ navigation }) => {
       <Header title='Search' />
       <SearchBar phrase={title} isClicked={search} onPress={searchByTitle} onChangeText={setTitle} />
       <SecondaryHeader type={2} title={results} />
-      {isSearching && (
+      {isSearching && done && (
         <FlatList
         data={launches}
         renderItem={(launch) => (
@@ -63,7 +70,7 @@ const SearchScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id} />
       )}
       <SecondaryHeader type={2} title="Related Articles" />
-      {isSearching && (
+      {isSearching && done && (
         <FlatList
         data={articles}
         renderItem={(article) => (

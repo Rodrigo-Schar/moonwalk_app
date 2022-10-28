@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Animated, Text } from 'react-native'
-import { AppContext, articleObj } from '@/shared';
+import { articleObj } from '@/shared';
 import { Article } from '@/models/Article';
 import { useRoute } from '@react-navigation/native';
 import {ColorContext} from '@/shared';
@@ -49,11 +49,11 @@ const NewsDetailArticle = () => {
               </View>
             </View>
             <View style={themeStyles.launchTime}>
-              <AntDesign name='clockcircleo' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <AntDesign name='clockcircleo' style={themeStyles.launchIcon}/>
               <Text style={themeStyles.launchText}>{new Date(article.publishedAt).toLocaleString()}</Text>
             </View>
             <View style={themeStyles.launchTime}>
-              <AntDesign name='filetext1' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <AntDesign name='filetext1' style={themeStyles.launchIcon}/>
               <Text style={themeStyles.launchText}>{article.newsSite}</Text>
             </View>
         </View>
@@ -65,7 +65,7 @@ const NewsDetailArticle = () => {
 export default NewsDetailArticle
 
 const useStyles = () => {
-  const { backgroundColor, primaryColorText, placeholderColor } =
+  const { backgroundColor, primaryColorText, accent } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -82,14 +82,18 @@ const useStyles = () => {
       flexWrap: "wrap",
       marginVertical: 10,
       width: "80%",
-      backgroundColor: "#d9dbda",
       borderRadius: 15,
-      alignSelf: "center",
-      alignItems: 'center',
-      justifyContent: "space-evenly",
+      alignSelf: 'flex-start',
+      marginHorizontal: 10
     },
     launchText: {
-      color: "#000000",
+      color: primaryColorText,
+      marginHorizontal: 10
+    },
+    launchIcon: {
+      color: accent, 
+      fontSize: 25,
+      padding: 1
     },
     image: {
       height: 400,

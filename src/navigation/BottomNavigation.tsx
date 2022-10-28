@@ -25,7 +25,7 @@ function BottomNavigation() {
             <AntDesign name='home' style={{ color: primaryColorText, fontSize: 20, padding: 1}}/>
           ),
         }} />
-        <Tab.Screen name="Events" component={Events.CalendarScreen} options={{ 
+        <Tab.Screen name="Events" component={Events.CalendarRoute} options={{ 
           headerShown: false,
           tabBarIcon: ({ }) => (
             <AntDesign name='calendar' style={{ color: primaryColorText, fontSize: 20, padding: 1}}/>

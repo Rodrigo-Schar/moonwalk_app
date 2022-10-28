@@ -50,8 +50,8 @@ const HomeScreen = () => {
           scrollEnabled={true}
           style={{ width: '100%' }}
           contentContainerStyle={{ flex: 1 }}>
-            <PreviewLaunch launch={launches[0]} />
-            <CountDown dateStr={launches[0].net} />
+            <PreviewLaunch launch={launches[1]} />
+            <CountDown dateStr={launches[1].net} />
           </ScrollView>
         )}
         {done && launches == undefined && (

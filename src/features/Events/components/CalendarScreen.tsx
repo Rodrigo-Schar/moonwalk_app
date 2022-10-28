@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
 import { AppContext } from '@/shared';
 import { Header, SecondaryHeader } from '@/components';
 import { Launch } from '@/models/Launch';
@@ -7,7 +7,7 @@ import { getEvents } from '@/services';
 import CardCalendar from './CardCalendar';
 import {ColorContext} from '@/shared';
 
-const CalendarScreen = () => {
+const CalendarScreen = ({ navigation }) => {
   const { setIsBusy } = useContext(AppContext);
   const themeStyles = useStyles();
   const [launches, setLaunches] = useState<Launch[]>([])
@@ -32,6 +32,12 @@ const CalendarScreen = () => {
       })
   }, [])
 
+  const gotoLaunchDetail = async (launch: Launch) => {
+    navigation.navigate('CalendarDetailLaunch',
+      launch
+    );
+  };
+
   return (
     <View style={themeStyles.container}>
       <Header title='Calendar' />
@@ -39,7 +45,13 @@ const CalendarScreen = () => {
       {done &&
         <FlatList
         data={launches}
-        renderItem={(launch) => <CardCalendar {...launch.item} />}
+        renderItem={(launch) => (
+          <TouchableHighlight
+            key={launch.index}
+            onPress={() => gotoLaunchDetail(launch.item)}>
+              <CardCalendar {...launch.item} />
+            </TouchableHighlight>
+        ) }
         keyExtractor={(item) => item.id} />
       }
       {!done &&

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,9 @@ import { AppContext } from '@/shared'
 import { SignIn } from '@/features';
 import { RootStackParamList } from './RootStack'
 import { BottomNavigation } from '@/navigation';
+import { useAppSelector, useAppDispatch } from '@/hooks';
+import auth from '@react-native-firebase/auth';
+import { login } from '@/features/Signin';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -37,7 +40,21 @@ const NotSignedScreens = () => {
   }
 
   const AppNavigation = () => {
-    const { isSignedIn, isLoading } = useContext(AppContext);
+    const { isLoading } = useContext(AppContext);
+    const dispatch = useAppDispatch();
+    const isSignedIn = useAppSelector(state => state.signIn.user);
+
+    const checkUser = async () => {
+      const user = auth().currentUser?.email
+  
+      if (user) {
+        dispatch(login(user as any))
+      }
+    }
+  
+    useEffect(() => {
+      checkUser();
+    }, []);
   
     if (isLoading) {
       return <SignIn.Loading />;

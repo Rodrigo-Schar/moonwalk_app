@@ -1,23 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import { CountDown, PreviewLaunch } from '@/components';
-import { AppContext } from '@/shared'
-import auth from '@react-native-firebase/auth';
 import { getNextLaunches } from '@/services';
 import { Launch } from '@/models/Launch';
 import {ColorContext} from '@/shared';
+import { useAppDispatch } from '@/hooks';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { logout } from '@/features/Signin';
+import { AppDispatch } from '@/store';
 
 const HomeScreen = () => {
   const themeStyles = useStyles();
-  const appContext = useContext(AppContext);
   const [launches, setLaunches] = useState<Launch[]>([])
   const [done, setDone] = useState<boolean>(false)
+  const dispatch = useAppDispatch();
 
   const signOut = () => {
-    const result = auth().signOut()
-    if(result != null) {
-      appContext.setIsSignedIn(false);
-    }
+    Alert.alert(
+      "Log Out",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => { dispatch(logout());} }
+      ]
+    );
   };
 
   useEffect(() => {
@@ -30,17 +40,23 @@ const HomeScreen = () => {
 
   return (
     <View style={themeStyles.container}>
-      {done && (
-        <ScrollView
-        scrollEnabled={true}
-        style={{ width: '100%' }}
-        contentContainerStyle={{ flex: 1 }}>
-          <PreviewLaunch launch={launches[0]} />
-          <CountDown dateStr={launches[0].net} />
-        </ScrollView>
-      )}
-      
-    </View>
+      <View style={themeStyles.menu}>
+        <TouchableOpacity onPress={signOut}>
+          <AntDesign name="logout" style={themeStyles.menuIcon} />
+        </TouchableOpacity>
+      </View>
+      <View style={themeStyles.contentContainer}>
+        {done && (
+          <ScrollView
+          scrollEnabled={true}
+          style={{ width: '100%' }}
+          contentContainerStyle={{ flex: 1 }}>
+            <PreviewLaunch launch={launches[0]} />
+            <CountDown dateStr={launches[0].net} />
+          </ScrollView>
+        )}
+      </View>
+    </View> 
   )
 }
 
@@ -48,17 +64,28 @@ export default HomeScreen
 
 const useStyles = () => {
   const {
-    backgroundColor
+    backgroundColor, primaryColorText
   } = useContext(ColorContext);
 
   return StyleSheet.create({
     container: {
       backgroundColor: backgroundColor,
       flex: 1,
+    },
+    contentContainer: {
+      backgroundColor: backgroundColor,
+      flex: 1,
       alignItems: 'center'
     },
-    button: {
-        width: '80%',
+    menu: {
+      flexDirection: 'row',
+      marginVertical: 10,
+      marginEnd: 20, 
+      justifyContent: 'flex-end',
+    },
+    menuIcon: {
+      color: primaryColorText,
+      fontSize: 20
     },
   })
 }

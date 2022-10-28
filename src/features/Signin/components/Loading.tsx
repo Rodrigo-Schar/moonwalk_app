@@ -3,15 +3,18 @@ import { StyleSheet, View } from 'react-native'
 import { AppContext } from '@/shared';
 import { Spinner } from '@/components';
 import auth from '@react-native-firebase/auth';
+import { useAppDispatch } from '@/hooks';
+import { login } from '../SignIn.slice';
 
 const Loading = () => {
   const appContext = useContext(AppContext);
+  const dispatch = useAppDispatch();
 
   const checkCredentials = async () => {
     try {
       auth().onAuthStateChanged(user => {
         if(user) {
-          appContext.setIsSignedIn(true);
+          dispatch(login(user.email as any))
         }
       })
     } catch (ex) {

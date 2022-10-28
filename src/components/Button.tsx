@@ -28,20 +28,18 @@ import {ColorContext} from '@/shared';
   
   const useStyles = (type: ButtonType) => {
     const {
-      backgroundColor,
-      secondaryColor,
       primaryButtonText,
-      secondaryButtonText,
       largePadding,
       border,
       margin,
+      accent
     } = useContext(ColorContext);
   
     return StyleSheet.create({
       button: {
-        borderColor: type == 'primary' ? secondaryColor : backgroundColor,
+        borderColor: accent,
         borderWidth: 2,
-        backgroundColor: type == 'primary' ? secondaryColor : backgroundColor,
+        backgroundColor:  accent,
         padding: largePadding,
         borderRadius: border,
         alignItems: 'center',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useState, useContext } from 'react';
 import { Button, LabelButton, Input, LabelError } from '@/components';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -67,9 +67,6 @@ const SignUp = ( { navigation }: SignUpProps) => {
         )
         if(authResult != null) {
           const result = await firestore().collection('Users').add({ id: authResult.user.uid, name: name, email: email })
-          if (result != null) {
-            navigation.replace('SignIn');
-          }
         }
       }
     } finally {

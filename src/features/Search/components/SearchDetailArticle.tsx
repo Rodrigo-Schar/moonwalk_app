@@ -1,12 +1,13 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { View, Image, StyleSheet, Animated, Text } from 'react-native'
-import { AppContext, articleObj } from '@/shared';
+import { articleObj } from '@/shared';
 import { Article } from '@/models/Article';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useRoute } from '@react-navigation/native';
+import {ColorContext} from '@/shared';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const SearchDetailArticle = () => {
-  const appContext = useContext(AppContext);
+  const themeStyles = useStyles();
   const [scrollY] = useState(new Animated.Value(0));
   const [article, setArticle] = useState<Article>(articleObj)
   const IMAGE_HEIGHT = 400;
@@ -26,9 +27,9 @@ const SearchDetailArticle = () => {
   });
 
   return (
-    <View style={{ overflow: "hidden" }}>
+    <View style={themeStyles.container}>
       <Image
-        style={styles.image}
+        style={themeStyles.image}
         source={{ uri: article.imageUrl }} />
         <Animated.ScrollView
         contentContainerStyle={{ paddingTop: IMAGE_HEIGHT }}
@@ -39,21 +40,21 @@ const SearchDetailArticle = () => {
           }
         )}
       >
-      <View style={{ backgroundColor: "#fff" }}>
-          <Text style={styles.title} >{article.title}</Text>
-          <Text style={styles.subTitle}>Summary</Text>
+      <View style={themeStyles.content}>
+          <Text style={themeStyles.title} >{article.title}</Text>
+          <Text style={themeStyles.subTitle}>Summary</Text>
             <View>
               <View style={{ marginTop: 10 }}>
-                <Text style={styles.summary}>{article.summary}</Text>
+                <Text style={themeStyles.summary}>{article.summary}</Text>
               </View>
             </View>
-            <View style={styles.launchTime}>
-              <Icon name="rocket" size={30} color="black" style={{ padding: 1 }}  />
-              <Text>{new Date(article.publishedAt).toLocaleString()}</Text>
+            <View style={themeStyles.launchTime}>
+              <AntDesign name='clockcircleo' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <Text style={themeStyles.launchText}>{new Date(article.publishedAt).toLocaleString()}</Text>
             </View>
-            <View style={styles.launchTime}>
-              <Icon name="rocket" size={30} color="black" style={{ padding: 1 }}  />
-              <Text>{article.newsSite}</Text>
+            <View style={themeStyles.launchTime}>
+              <AntDesign name='filetext1' style={{ color: 'black', fontSize: 25, padding: 1}}/>
+              <Text style={themeStyles.launchText}>{article.newsSite}</Text>
             </View>
         </View>
       </Animated.ScrollView>
@@ -63,46 +64,62 @@ const SearchDetailArticle = () => {
 
 export default SearchDetailArticle
 
-const styles = StyleSheet.create({
-  button: {
-    width: '80%',
-  },
-  launchTime: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginVertical: 10,
-    width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignSelf: "center",
-    alignItems: 'center',
-    justifyContent: "space-evenly",
-  },
-  image: {
-    height: 400,
-    width: '100%',
-    position: 'absolute',
-    background: '#888',
-  },
-  centerItems: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    textAlign: 'center',
-    marginHorizontal: 15
-  },
-  subTitle: {
-    marginTop: 20,
-    fontWeight: 'bold',
-    fontSize: 24,
-    textAlign: 'left',
-    marginHorizontal: 10
-  },
-  summary: {
-    justifyContent: 'center',
-    marginHorizontal: 10
-  }
-})
+const useStyles = () => {
+  const { backgroundColor, primaryColorText, placeholderColor } =
+    useContext(ColorContext);
+
+  return StyleSheet.create({
+    container: {
+      backgroundColor: backgroundColor,
+      overflow: "hidden"
+    },
+    content: {
+      backgroundColor: backgroundColor,
+      borderRadius: 20
+    },
+    launchTime: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      marginVertical: 10,
+      width: "80%",
+      backgroundColor: "#d9dbda",
+      borderRadius: 15,
+      alignSelf: "center",
+      alignItems: 'center',
+      justifyContent: "space-evenly",
+    },
+    launchText: {
+      color: "#000000",
+    },
+    image: {
+      height: 400,
+      width: '100%',
+      position: 'absolute',
+      background: '#888',
+    },
+    centerItems: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    title: {
+      color: primaryColorText,
+      fontWeight: 'bold',
+      fontSize: 26,
+      textAlign: 'center',
+      marginHorizontal: 15
+    },
+    subTitle: {
+      marginTop: 20,
+      color: primaryColorText,
+      fontWeight: 'bold',
+      fontSize: 24,
+      textAlign: 'left',
+      marginHorizontal: 10
+    },
+    summary: {
+      color: primaryColorText,
+      justifyContent: 'center',
+      marginHorizontal: 10
+    }
+  })
+}

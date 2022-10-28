@@ -7,10 +7,12 @@ import { RootStackParamList } from '@/navigation';
 import { AppContext } from '@/shared';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {ColorContext} from '@/shared';
 
 type SignUpProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 const SignUp = ( { navigation }: SignUpProps) => {
+  const themeStyles = useStyles();
   const { setIsBusy } = useContext(AppContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -76,15 +78,15 @@ const SignUp = ( { navigation }: SignUpProps) => {
   }
 
   return (
-    <View style={styles.main}>
-      <View style={styles.content}>
+    <View style={themeStyles.container}>
+      <View style={themeStyles.content}>
         <Input placeholderText='Name' value={name} onChangeText={setName} />
         <Input placeholderText='Email' value={email} onChangeText={setEmail} />
         <Input secureTextEntry={true} placeholderText='Password' value={password} onChangeText={setPassword} />
         <Input secureTextEntry={true} placeholderText='Confirm Password' value={confirmPassword} onChangeText={setConfirmPassword} />
         <LabelError isActive={errorLabel} text={error} />
         <LabelButton text="Already have an account? Sign In" onPress={goToSignIn} />
-        <Button style={styles.button} text="Sign Up" onPress={signUnWithCredentials} />
+        <Button style={themeStyles.button} text="Sign Up" onPress={signUnWithCredentials} />
       </View>
     </View>
   )
@@ -92,22 +94,28 @@ const SignUp = ( { navigation }: SignUpProps) => {
 
 export default SignUp
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  button: {
-    width: '80%',
-  },
-})
+const useStyles = () => {
+  const { backgroundColor } =
+    useContext(ColorContext); 
+  
+    return StyleSheet.create({
+      container: {
+        backgroundColor: backgroundColor,
+        flex: 1,
+      },
+      content: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      logo: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10,
+      },
+      button: {
+        width: '80%',
+      },
+    })
+};

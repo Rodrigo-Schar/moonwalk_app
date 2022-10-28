@@ -5,10 +5,12 @@ import { Button, LabelButton, Input, LabelError } from '@/components';
 import { RootStackParamList } from '@/navigation';
 import { AppContext } from '@/shared';
 import auth from '@react-native-firebase/auth';
+import {ColorContext} from '@/shared';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 const SignIn = ({ navigation }: SignInProps) => {
+  const themeStyles = useStyles();
   const { setIsSignedIn } = useContext(AppContext);
   const { setIsBusy } = useContext(AppContext);
   const [email, setEmail] = useState("");
@@ -63,16 +65,16 @@ const SignIn = ({ navigation }: SignInProps) => {
   }
 
   return (
-    <View style={styles.main}>
-      <View style={styles.logo}>
-        <Image resizeMode='stretch' style={styles.logo} source={logo} />
+    <View style={themeStyles.container}>
+      <View style={themeStyles.logo}>
+        <Image resizeMode='stretch' style={themeStyles.logo} source={logo} />
       </View>
-      <View style={styles.content}>
+      <View style={themeStyles.content}>
         <Input placeholderText='Email' value={email} onChangeText={setEmail} />
         <Input secureTextEntry={true} placeholderText='Password' value={password} onChangeText={setPassword} />
         <LabelError isActive={errorLabel} text={error} />
         <LabelButton text="Don't have an account yet? Sign Up" onPress={goToSignUp} />
-        <Button style={styles.button} text="Sign In" onPress={signInWithUser} />
+        <Button style={themeStyles.button} text="Sign In" onPress={signInWithUser} />
       </View>
     </View>
   )
@@ -80,22 +82,28 @@ const SignIn = ({ navigation }: SignInProps) => {
 
 export default SignIn
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  button: {
-    width: '80%',
-  },
-})
+const useStyles = () => {
+  const { backgroundColor } =
+    useContext(ColorContext);
+
+    return StyleSheet.create({
+      container: {
+        backgroundColor: backgroundColor,
+        flex: 1,
+      },
+      content: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      logo: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10,
+      },
+      button: {
+        width: '80%',
+      },
+    })
+  };

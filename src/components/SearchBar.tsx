@@ -1,7 +1,6 @@
-import { StyleSheet, TextInput, TextInputProps, View, Keyboard, Button, TouchableHighlightProps } from 'react-native';
+import { StyleSheet, TextInput, TextInputProps, View, Button, TouchableHighlightProps } from 'react-native';
 import React, { useContext, useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ColorContext} from '@/shared';
 
 export type SearchBarProps = {
@@ -32,7 +31,8 @@ const SearchBar = ({
   return (
     <View style={themeStyles.container}>
       <View style={clicked? themeStyles.searchBar__clicked: themeStyles.searchBar__unclicked}>
-        <Icon name="rocket" size={30} color="black" style={{ padding: 1 }}  />
+        <AntDesign name='search1' style={{ color: 'black', fontSize: 20}}/>
+        
         <TextInput
           style={themeStyles.input}
           placeholder="Search"
@@ -40,7 +40,7 @@ const SearchBar = ({
           onChangeText={onChange}
           onFocus={() => {setClicked(true);}} />
         {clicked && (
-          <Icon name="cross" size={30} color="black" style={{ padding: 1 }} onPress={() => { setSearchPhrase("") }}/>
+          <AntDesign name='close' style={{ color: 'black', fontSize: 20}} onPress={() => { setSearchPhrase("") }}/>
         )}
       </View>
       {clicked && (
@@ -58,7 +58,7 @@ const SearchBar = ({
 export default SearchBar;
 
 const useStyles = () => {
-  const { placeholderColor, primaryColor, backgroundColor } =
+  const {  } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -87,9 +87,13 @@ const useStyles = () => {
         justifyContent: "space-evenly",
       },
       input: {
+        color: '#000000',
         fontSize: 20,
         marginLeft: 10,
         width: "90%",
       },
   });
 };
+
+//<Icon name="rocket" size={30} color="black" style={{ padding: 1 }}  />
+//<Icon name="cross" size={30} color="black" style={{ padding: 1 }} onPress={() => { setSearchPhrase("") }}/>

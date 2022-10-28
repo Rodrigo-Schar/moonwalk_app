@@ -66,18 +66,12 @@ export default CountDown;
 
 const useStyles = () => {
   const {
-    backgroundColor,
-    primaryColor,
-    primaryColorText,
-    secondaryButtonText,
-    largePadding,
-    border,
-    margin,
+    primaryButtonText, primaryColor
   } = useContext(ColorContext);
 
   return StyleSheet.create({
     text: {
-      color: primaryColorText,
+      color: primaryButtonText,
       height: 30,
       fontSize: 18,
       marginBottom: 30,
@@ -97,12 +91,12 @@ const useStyles = () => {
     },
     number: {
       fontSize: 26,
-      color: primaryColorText,
+      color: primaryButtonText,
       fontWeight: 'bold'
     },
     unit: {
       fontSize: 12,
-      color: primaryColorText,
+      color: primaryButtonText,
       fontWeight: 'bold'
     }
   });

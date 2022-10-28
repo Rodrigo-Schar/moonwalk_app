@@ -1,33 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native'
-import { Button, CountDown, PreviewLaunch } from '@/components';
-import { AppContext, StorageConstants } from '@/shared'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { CountDown, PreviewLaunch } from '@/components';
+import { AppContext } from '@/shared'
 import auth from '@react-native-firebase/auth';
 import { getNextLaunches } from '@/services';
 import { Launch } from '@/models/Launch';
+import {ColorContext} from '@/shared';
 
 const HomeScreen = () => {
-    const appContext = useContext(AppContext);
-    const [launches, setLaunches] = useState<Launch[]>([])
-    const [done, setDone] = useState<boolean>(false)
+  const themeStyles = useStyles();
+  const appContext = useContext(AppContext);
+  const [launches, setLaunches] = useState<Launch[]>([])
+  const [done, setDone] = useState<boolean>(false)
 
-    const signOut = () => {
-      const result = auth().signOut()
-      if(result != null) {
-        appContext.setIsSignedIn(false);
-      }
-    };
+  const signOut = () => {
+    const result = auth().signOut()
+    if(result != null) {
+      appContext.setIsSignedIn(false);
+    }
+  };
 
-    useEffect(() => {
-      getNextLaunches()
-        .then(items => {
-          setLaunches(items.results)
-          setDone(true)
-        })
-    }, [])
+  useEffect(() => {
+    getNextLaunches()
+      .then(items => {
+        setLaunches(items.results)
+        setDone(true)
+      })
+  }, [])
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
+    <View style={themeStyles.container}>
       {done && (
         <ScrollView
         scrollEnabled={true}
@@ -44,8 +46,19 @@ const HomeScreen = () => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({
+const useStyles = () => {
+  const {
+    backgroundColor
+  } = useContext(ColorContext);
+
+  return StyleSheet.create({
+    container: {
+      backgroundColor: backgroundColor,
+      flex: 1,
+      alignItems: 'center'
+    },
     button: {
         width: '80%',
     },
-})
+  })
+}

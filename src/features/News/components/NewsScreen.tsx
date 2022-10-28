@@ -1,12 +1,14 @@
 import { useContext, useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
+import { View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { AppContext } from '@/shared';
 import { Header, SecondaryHeader, CardArticle } from '@/components';
 import { Article } from '@/models/Article';
 import { getArticleList } from '@/services';
+import {ColorContext} from '@/shared';
 
 const NewsScreen = ({ navigation }) => {
-  const appContext = useContext(AppContext);
+  const { setIsBusy } = useContext(AppContext);
+  const themeStyles = useStyles();
   const [articles, setArticles] = useState<Article[] | null>(null)
 
   const gotoDetail = async (article: Article) => {
@@ -16,14 +18,16 @@ const NewsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
+    setIsBusy(true);
     getArticleList()
       .then(items => {
         setArticles(items)
+        setIsBusy(false);
       })
   }, [])
 
   return (
-    <View style={{ flex: 1}}>
+    <View style={themeStyles.container}>
       <Header title='News' />
       <SecondaryHeader type={1} title='Today' />
       <FlatList
@@ -42,8 +46,18 @@ const NewsScreen = ({ navigation }) => {
 
 export default NewsScreen
 
-const styles = StyleSheet.create({
-  button: {
+const useStyles = () => {
+  const { backgroundColor } =
+    useContext(ColorContext);
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: backgroundColor,
+    },
+    button: {
       width: '80%',
-  },
-})
+    },
+  })
+}
+

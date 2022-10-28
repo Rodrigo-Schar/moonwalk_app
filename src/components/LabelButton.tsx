@@ -28,13 +28,8 @@ import {ColorContext} from '@/shared';
   
   const useStyles = (type: LabelButtonType) => {
     const {
-      backgroundColor,
-      primaryColor,
       primaryColorText,
       secondaryButtonText,
-      largePadding,
-      border,
-      margin,
     } = useContext(ColorContext);
   
     return StyleSheet.create({

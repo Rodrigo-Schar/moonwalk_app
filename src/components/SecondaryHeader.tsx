@@ -26,7 +26,7 @@ const SecondaryHeader = ({
 export default SecondaryHeader;
 
 const useStyles = (type: number) => {
-  const { backgroundColor } =
+  const { backgroundColor, primaryColorText } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -37,6 +37,7 @@ const useStyles = (type: number) => {
       alignItems: type == 1 ? 'flex-start' : 'center',
     },
     title: {
+      color: primaryColorText,
       marginLeft: 10,
       height: 25,
       fontWeight: 'bold',

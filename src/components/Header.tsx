@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TextInputProps, View } from 'react-native';
 import React, { useContext, useState } from 'react';
-
 import {ColorContext} from '@/shared';
 
 export type HeaderProps = {
@@ -29,7 +28,7 @@ const Header = ({
 export default Header;
 
 const useStyles = () => {
-  const { placeholderColor, primaryColor, backgroundColor } =
+  const { placeholderColor, primaryColorText, backgroundColor } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -39,6 +38,7 @@ const useStyles = () => {
       marginBottom: 10,
     },
     title: {
+      color: primaryColorText,
       marginLeft: 10,
       marginTop: 30,
 			fontWeight: 'bold',

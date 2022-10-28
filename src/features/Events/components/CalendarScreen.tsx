@@ -5,13 +5,16 @@ import { Header, SecondaryHeader } from '@/components';
 import { Launch } from '@/models/Launch';
 import { getEvents } from '@/services';
 import CardCalendar from './CardCalendar';
+import {ColorContext} from '@/shared';
 
 const CalendarScreen = () => {
-  const appContext = useContext(AppContext);
+  const { setIsBusy } = useContext(AppContext);
+  const themeStyles = useStyles();
   const [launches, setLaunches] = useState<Launch[] | null>(null)
   var launchesList: Launch[] = []
 
   useEffect(() => {
+    setIsBusy(true);
     getEvents()
       .then(items => {
         for(let results of items.results) {
@@ -20,11 +23,12 @@ const CalendarScreen = () => {
             }
         }
         setLaunches(launchesList)
+        setIsBusy(false);
       })
   }, [])
 
   return (
-    <View>
+    <View style={themeStyles.container}>
       <Header title='Calendar' />
       <SecondaryHeader type={1} title='Scheduled' />
       <FlatList
@@ -37,8 +41,18 @@ const CalendarScreen = () => {
 
 export default CalendarScreen
 
-const styles = StyleSheet.create({
-  button: {
-      width: '80%',
-  },
-})
+const useStyles = () => {
+  const { backgroundColor } =
+    useContext(ColorContext);
+
+    return StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: backgroundColor,
+      },
+      button: {
+          width: '80%',
+      },
+  })
+}
+

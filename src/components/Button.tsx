@@ -39,7 +39,7 @@ import {ColorContext} from '@/shared';
   
     return StyleSheet.create({
       button: {
-        borderColor: secondaryColor,
+        borderColor: type == 'primary' ? secondaryColor : backgroundColor,
         borderWidth: 2,
         backgroundColor: type == 'primary' ? secondaryColor : backgroundColor,
         padding: largePadding,
@@ -48,7 +48,7 @@ import {ColorContext} from '@/shared';
         margin: margin,
       },
       text: {
-        color: type == 'primary' ? primaryButtonText : secondaryButtonText,
+        color: primaryButtonText,
         fontWeight: '600',
         fontSize: 18,
       },

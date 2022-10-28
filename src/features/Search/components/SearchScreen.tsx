@@ -1,14 +1,16 @@
 import { useContext, useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
+import { View, StyleSheet, FlatList, TouchableHighlight, Keyboard } from 'react-native'
 import { AppContext } from '@/shared';
 import { Header, SecondaryHeader, CardArticle, SearchBar } from '@/components';
 import { Article } from '@/models/Article';
 import { searchArticleByTitle, searchLaunchByTitle } from '@/services';
 import { Launch } from '@/models/Launch';
 import CardLaunch from './CardLaunch';
+import {ColorContext} from '@/shared';
 
 const SearchScreen = ({ navigation }) => {
-  const appContext = useContext(AppContext);
+  const { setIsBusy } = useContext(AppContext);
+  const themeStyles = useStyles();
   const [articles, setArticles] = useState<Article[] | null>(null)
   const [launches, setLaunchs] = useState<Launch[] | null>(null)
   const [results, setResults] = useState('Write a title for search');
@@ -17,6 +19,7 @@ const SearchScreen = ({ navigation }) => {
   const [isSearching, setSearching] = useState(false);
 
   const searchByTitle = () => {
+    Keyboard.dismiss();
     searchLaunchByTitle(title)
       .then(items => {
         setLaunchs(items.results)
@@ -43,7 +46,7 @@ const SearchScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={themeStyles.container}>
       <Header title='Search' />
       <SearchBar phrase={title} isClicked={search} onPress={searchByTitle} onChangeText={setTitle} />
       <SecondaryHeader type={2} title={results} />
@@ -78,8 +81,15 @@ const SearchScreen = ({ navigation }) => {
 
 export default SearchScreen
 
-const styles = StyleSheet.create({
-  button: {
-      width: '80%',
-  },
-})
+const useStyles = () => {
+  const { backgroundColor } =
+    useContext(ColorContext);
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: backgroundColor,
+    },
+  })
+}
+

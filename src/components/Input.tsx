@@ -42,12 +42,12 @@ const Input = ({
 export default Input;
 
 const useStyles = () => {
-  const { placeholderColor, primaryColor } =
+  const { placeholderColor, inputBackground } =
     useContext(ColorContext);
 
   return StyleSheet.create({
     container: {
-      backgroundColor: primaryColor,
+      backgroundColor: inputBackground,
       borderRadius: 30,
       width: "80%",
       height: 45,

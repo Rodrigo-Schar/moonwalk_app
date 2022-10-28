@@ -28,7 +28,7 @@ const PreviewLaunch = ({
 export default PreviewLaunch;
 
 const useStyles = () => {
-  const { placeholderColor, primaryColor } =
+  const { primaryButtonText } =
     useContext(ColorContext);
 
   return StyleSheet.create({
@@ -45,13 +45,13 @@ const useStyles = () => {
         justifyContent: 'space-between',
     },
     title: {
-        color: '#fff',
+        color: primaryButtonText,
         fontWeight: 'bold',
         fontSize: 20,
         margin: 20,
     },
     time: {
-        color: '#fff',
+        color: primaryButtonText,
         fontWeight: 'bold',
         fontSize: 20,
         margin: 20,
